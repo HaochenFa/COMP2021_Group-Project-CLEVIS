@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -73,51 +74,21 @@ public final class ClevisController {
         String keyword = tokens[0].toLowerCase(Locale.ROOT);
         try {
             switch (keyword) {
-                case "rectangle":
-                    handleRectangle(tokens);
-                    break;
-                case "line":
-                    handleLine(tokens);
-                    break;
-                case "circle":
-                    handleCircle(tokens);
-                    break;
-                case "square":
-                    handleSquare(tokens);
-                    break;
-                case "group":
-                    handleGroup(tokens);
-                    break;
-                case "ungroup":
-                    handleUngroup(tokens);
-                    break;
-                case "delete":
-                    handleDelete(tokens);
-                    break;
-                case "boundingbox":
-                    handleBoundingBox(tokens);
-                    break;
-                case "move":
-                    handleMove(tokens);
-                    break;
-                case "shapeat":
-                    handleShapeAt(tokens);
-                    break;
-                case "intersect":
-                    handleIntersect(tokens);
-                    break;
-                case "list":
-                    handleList(tokens);
-                    break;
-                case "listall":
-                    handleListAll(tokens);
-                    break;
-                case "quit":
-                    running = false;
-                    break;
-                default:
-                    view.showError("Unknown command: " + keyword);
-                    break;
+                case "rectangle" -> handleRectangle(tokens);
+                case "line" -> handleLine(tokens);
+                case "circle" -> handleCircle(tokens);
+                case "square" -> handleSquare(tokens);
+                case "group" -> handleGroup(tokens);
+                case "ungroup" -> handleUngroup(tokens);
+                case "delete" -> handleDelete(tokens);
+                case "boundingbox" -> handleBoundingBox(tokens);
+                case "move" -> handleMove(tokens);
+                case "shapeat" -> handleShapeAt(tokens);
+                case "intersect" -> handleIntersect(tokens);
+                case "list" -> handleList(tokens);
+                case "listall" -> handleListAll(tokens);
+                case "quit" -> running = false;
+                default -> view.showError("Unknown command: " + keyword);
             }
         } catch (IllegalArgumentException | IllegalStateException ex) {
             view.showError(ex.getMessage());
@@ -194,7 +165,7 @@ public final class ClevisController {
             throw new IllegalArgumentException("Group command requires a name and members");
         }
         String groupName = tokens[1];
-        List<String> members = new ArrayList<String>(Arrays.asList(tokens).subList(2, tokens.length));
+        List<String> members = new ArrayList<>(Arrays.asList(tokens).subList(2, tokens.length));
         repository.groupShapes(groupName, members);
     }
 
@@ -316,48 +287,45 @@ public final class ClevisController {
     }
 
     /**
-     * @function `formatShapeDescription` Serializes a shape into CLI-friendly string.
+     * @function `formatShapeDescription` Serializes a shape into CLI-friendly
+     *           string.
      *
      * @param shape Shape instance
      * @return Description string
      */
     private String formatShapeDescription(Shape shape) {
-        if (shape instanceof RectangleShape && !(shape instanceof SquareShape)) {
-            RectangleShape rectangle = (RectangleShape) shape;
-            return String.format(Locale.US, "rectangle %s %s %s %s %s",
-                rectangle.getName(),
-                view.formatDouble(rectangle.getX()),
-                view.formatDouble(rectangle.getY()),
-                view.formatDouble(rectangle.getWidth()),
-                view.formatDouble(rectangle.getHeight()));
-        }
-        if (shape instanceof SquareShape) {
-            SquareShape square = (SquareShape) shape;
+        Objects.requireNonNull(shape, "shape");
+        if (shape instanceof SquareShape square) {
             return String.format(Locale.US, "square %s %s %s %s",
-                square.getName(),
-                view.formatDouble(square.getX()),
-                view.formatDouble(square.getY()),
-                view.formatDouble(square.getWidth()));
+                    square.getName(),
+                    view.formatDouble(square.getX()),
+                    view.formatDouble(square.getY()),
+                    view.formatDouble(square.getWidth()));
         }
-        if (shape instanceof CircleShape) {
-            CircleShape circle = (CircleShape) shape;
+        if (shape instanceof RectangleShape rectangle) {
+            return String.format(Locale.US, "rectangle %s %s %s %s %s",
+                    rectangle.getName(),
+                    view.formatDouble(rectangle.getX()),
+                    view.formatDouble(rectangle.getY()),
+                    view.formatDouble(rectangle.getWidth()),
+                    view.formatDouble(rectangle.getHeight()));
+        }
+        if (shape instanceof CircleShape circle) {
             return String.format(Locale.US, "circle %s %s %s %s",
-                circle.getName(),
-                view.formatDouble(circle.getCenterX()),
-                view.formatDouble(circle.getCenterY()),
-                view.formatDouble(circle.getRadius()));
+                    circle.getName(),
+                    view.formatDouble(circle.getCenterX()),
+                    view.formatDouble(circle.getCenterY()),
+                    view.formatDouble(circle.getRadius()));
         }
-        if (shape instanceof LineSegmentShape) {
-            LineSegmentShape line = (LineSegmentShape) shape;
+        if (shape instanceof LineSegmentShape line) {
             return String.format(Locale.US, "line %s %s %s %s %s",
-                line.getName(),
-                view.formatDouble(line.getStart().getX()),
-                view.formatDouble(line.getStart().getY()),
-                view.formatDouble(line.getEnd().getX()),
-                view.formatDouble(line.getEnd().getY()));
+                    line.getName(),
+                    view.formatDouble(line.getStart().getX()),
+                    view.formatDouble(line.getStart().getY()),
+                    view.formatDouble(line.getEnd().getX()),
+                    view.formatDouble(line.getEnd().getY()));
         }
-        if (shape instanceof GroupShape) {
-            GroupShape group = (GroupShape) shape;
+        if (shape instanceof GroupShape group) {
             StringBuilder builder = new StringBuilder();
             builder.append("group ").append(group.getName()).append(" [");
             List<Shape> children = group.getChildren();

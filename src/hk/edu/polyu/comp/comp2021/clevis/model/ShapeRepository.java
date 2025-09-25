@@ -18,8 +18,8 @@ import java.util.Optional;
  * Stores shapes with Z-order tracking and grouping metadata.
  */
 public final class ShapeRepository {
-    private final Map<String, ShapeEntry> shapes = new LinkedHashMap<String, ShapeEntry>();
-    private final List<Shape> zOrder = new ArrayList<Shape>();
+    private final Map<String, ShapeEntry> shapes = new LinkedHashMap<>();
+    private final List<Shape> zOrder = new ArrayList<>();
 
     /**
      * @function `contains`
@@ -88,7 +88,8 @@ public final class ShapeRepository {
     }
 
     /**
-     * @function `deleteShape` Removes a top-level shape (with recursion for groups).
+     * @function `deleteShape` Removes a top-level shape (with recursion for
+     *           groups).
      *
      * @param name Shape identifier
      */
@@ -114,7 +115,7 @@ public final class ShapeRepository {
         if (contains(groupName)) {
             throw new IllegalArgumentException("Shape name already exists: " + groupName);
         }
-        List<Shape> members = new ArrayList<Shape>();
+        List<Shape> members = new ArrayList<>();
         for (String memberName : memberNames) {
             ShapeEntry entry = requireEntry(memberName);
             if (entry.parent != null) {
@@ -125,7 +126,6 @@ public final class ShapeRepository {
 
         GroupShape group = new GroupShape(groupName, members);
         registerShape(group);
-        ShapeEntry groupEntry = shapes.get(groupName);
         for (Shape member : members) {
             ShapeEntry entry = shapes.get(member.getName());
             entry.parent = group;
@@ -156,7 +156,7 @@ public final class ShapeRepository {
         zOrder.remove(group);
         shapes.remove(groupName);
 
-        List<Shape> restored = new ArrayList<Shape>();
+        List<Shape> restored = new ArrayList<>();
         List<Shape> children = group.getChildren();
         for (int i = 0; i < children.size(); i++) {
             Shape child = children.get(i);
@@ -191,7 +191,7 @@ public final class ShapeRepository {
      * @return Unmodifiable snapshot of the current top-level z-order
      */
     public List<Shape> listTopLevelShapes() {
-        return Collections.unmodifiableList(new ArrayList<Shape>(zOrder));
+        return Collections.unmodifiableList(new ArrayList<>(zOrder));
     }
 
     /**

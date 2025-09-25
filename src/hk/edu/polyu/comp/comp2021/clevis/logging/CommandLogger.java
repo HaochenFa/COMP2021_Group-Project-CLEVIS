@@ -70,7 +70,8 @@ public final class CommandLogger implements AutoCloseable {
     }
 
     /**
-     * @function `close` Finalizes logs, writing the HTML footer and closing streams.
+     * @function `close` Finalizes logs, writing the HTML footer and closing
+     *           streams.
      */
     @Override
     public void close() throws IOException {
@@ -78,9 +79,13 @@ public final class CommandLogger implements AutoCloseable {
             return;
         }
         closed = true;
-        writeHtmlFooter();
-        htmlWriter.close();
-        textWriter.close();
+        try (BufferedWriter htmlResource = htmlWriter; BufferedWriter textResource = textWriter) {
+            writeHtmlFooter();
+            htmlResource.flush();
+            textResource.flush();
+        } catch (IOException e) {
+            throw new IOException("Failed to close command logs", e);
+        }
     }
 
     private void writeHtmlHeader() throws IOException {
