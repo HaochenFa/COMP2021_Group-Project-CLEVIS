@@ -25,6 +25,7 @@ Build **Clevis** — a **Command LinE Vector graphIcs Software** in **Java**. Us
 ## 2. Requirements
 
 Unless noted otherwise:
+
 - All numeric values are **`double`**.
 - **Each shape name is unique.**
 - When printed, **double** values must be **rounded to 2 decimal places**.
@@ -37,41 +38,50 @@ Unless noted otherwise:
 > ```
 
 ### [REQ1] Logging (4 pts)
+
 - **Log all operations** of a Clevis session into **two files**:
   - **HTML**: a table with two columns — **operation index** and **command** (one row per operation).
   - **TXT**: plain text; **one command per line**.
 - **File names** are provided as **startup parameters** (see example above).
 
 ### [REQ2] Rectangle (1.5 pts)
+
 - **Command:** `rectangle n x y w h`  
 - **Effect:** Create rectangle named `n`, **top-left** at `(x, y)`, **width** `w`, **height** `h`.
 
 ### [REQ3] Line segment (1.5 pts)
+
 - **Command:** `line n x1 y1 x2 y2`  
 - **Effect:** Create line segment named `n` with endpoints `(x1, y1)` and `(x2, y2)`.
 
 ### [REQ4] Circle (1.5 pts)
+
 - **Command:** `circle n x y r`  
 - **Effect:** Create circle named `n`, **center** `(x, y)`, **radius** `r`.
 
 ### [REQ5] Square (1.5 pts)
+
 - **Command:** `square n x y l`  
 - **Effect:** Create square named `n`, **top-left** `(x, y)`, **side length** `l`.
 
 ### [REQ6] Group (2 pts)
+
 - **Command:** `group n n1 n2 ...`  
 - **Effect:** Create **group shape** `n` from existing shapes `n1, n2, ...`.  
   After grouping, `n1, n2, ...` **cannot** be directly used by [REQ8]–[REQ13] **until** `n` is **ungrouped**.
 
 ### [REQ7] Ungroup (2 pts)
+
 - **Command:** `ungroup n`  
 - **Effect:** **Ungroup** `n` into its component shapes. Shape `n` **ceases to exist**; its components become directly usable by [REQ8]–[REQ13].
 
 ### [REQ8] Delete (2 pts)
+
 - **Command:** `delete n`  
 - **Effect:** Delete shape `n`. If `n` is a **group**, **all its members** are also deleted.
 
 ### [REQ9] Minimum Bounding Box (4 pts)
+
 - **Command:** `boundingbox n`  
 - **Effect:** Compute and **print** the **minimum bounding box** of shape `n` in the format:  
   `x y w h` (top-left `x y`, width `w`, height `h`).  
@@ -79,10 +89,12 @@ Unless noted otherwise:
   _Reference:_ <https://en.wikipedia.org/wiki/Minimum_bounding_box>
 
 ### [REQ10] Move (4 pts)
+
 - **Command:** `move n dx dy`  
 - **Effect:** Move shape `n` by **`dx` horizontally** and **`dy` vertically**. For groups, **move all components**.
 
 ### [REQ11] `shapeAt` (4 pts)
+
 - **Command:** `shapeAt x y`  
 - **Effect:** Return the **name** of the **topmost** shape (highest **Z-index**) that **covers point** `(x, y)`.  
 - **Cover definition:** a shape **covers** a point iff the **minimum distance** from the point to the shape’s **outline (border only)** is **\< 0.05**.  
@@ -92,26 +104,31 @@ Unless noted otherwise:
   _Reference:_ <https://en.wikipedia.org/wiki/Z-order>
 
 ### [REQ12] `intersect` (4 pts)
+
 - **Command:** `intersect n1 n2`  
 - **Effect:** Report whether shapes `n1` and `n2` **intersect**, defined as their **minimum bounding boxes sharing any internal point**.
 
 ### [REQ13] `list` (4 pts)
+
 - **Command:** `list n`  
 - **Effect:** List basic information of shape `n`.  
   - **Simple shape:** list **construction parameters** (e.g., for circle: name, **center**, **radius**).  
   - **Group shape:** list **group name** and **direct members**.
 
 ### [REQ14] `listAll` (2 pts)
+
 - **Command:** `listAll`  
 - **Effect:** List **all shapes** in **decreasing Z-order**. Use **indentation** to indicate **containment** (groups and their members).
 
 ### [REQ15] `quit` (2 pts)
+
 - **Command:** `quit`  
 - **Effect:** Terminate Clevis. (All graphics are **discarded** on exit.)
 
 > **Error handling:** Gracefully handle ill-formed commands and impossible actions (e.g., **duplicate name**, **undefined name**). **Poor error handling** causes point deductions.
 
 #### Bonus Features
+
 - **[BON1] GUI (8 pts):** Provide a GUI that displays the graphic after each operation. You may add a **text field** for commands and support **zooming** for a full view. The **CLI remains mandatory**.
 - **[BON2] Undo/Redo (4 pts):** Support **undo/redo** for all commands **except** `boundingbox`, `intersect`, `list`, `listAll`, and `quit`.  
   _Reference:_ <https://en.wikipedia.org/wiki/Undo>
@@ -203,7 +220,8 @@ Submit **one ZIP** containing **all deliverables**:
 4. Zip **everything inside** the main directory.
 
 **Example structure**
-```
+
+```plaintext
 GroupID/
 ├─ project report.pdf
 ├─ Honour Declaration for Group Project.pdf
@@ -251,6 +269,7 @@ If the group’s overall score is **x**, group size is **y (3 ≤ y ≤ 4)**, an
   **Penalty:** **−50 pts** for non-compliant project or **compilation errors**.
 
 **Useful links:**  
+
 - JDK 21: <https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html>  
 - IntelliJ Community 2024.2: <https://www.jetbrains.com/idea/download/other.html>
 
@@ -266,23 +285,28 @@ COMP2021 Object-Oriented Programming (Fall 2025)
 **Group XYZ**  
 
 **Members and contribution percentages:**  
+
 - Member1: a%  
 - Member2: b%  
 - Member3: c%  
 - Member4: d%
 
 #### 1. Introduction
+
 Briefly outline the design and implementation of **Clevis**.
 
 #### 2. The Command Line Vector Graphics Software (Clevis)
 
 ##### 2.1 Design
+
 Provide **class diagram(s)** and explain how components fit together. Elaborate on **design patterns** and justify **critical design decisions**.
 
 ##### 2.2 Implementation of Requirements
+
 For each requirement (including bonus), state **(1) implemented or not**, **(2) how** you implemented it, and **(3) error handling**.
 
 Example:
+
 - **[REQ1]**  
   1) Implemented.  
   2) Implementation details …  
@@ -294,4 +318,5 @@ Example:
 …
 
 #### 3. Learning-to-Learn
+
 Reflect on **learning-to-learn** experiences and outline a **plan to improve** your **self-learning**.

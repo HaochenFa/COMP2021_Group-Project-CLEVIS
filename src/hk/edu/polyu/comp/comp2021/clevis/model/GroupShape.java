@@ -76,22 +76,6 @@ public final class GroupShape extends AbstractShape {
     }
 
     /**
-     * @function `intersects` Delegates intersection check to each child.
-     *
-     * @param other Other shape to test against
-     * @return `true` if any member intersects with the other shape
-     */
-    @Override
-    public boolean intersects(Shape other) {
-        for (Shape child : children) {
-            if (child.intersects(other)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * @function `isGroup`
      *
      * @return Always `true` for a group shape

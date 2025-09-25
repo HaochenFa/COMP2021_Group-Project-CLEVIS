@@ -196,7 +196,7 @@ public final class ClevisController {
      */
     private void handleBoundingBox(String[] tokens) {
         ensureLength(tokens, 2);
-        Shape shape = repository.requireShape(tokens[1]);
+        Shape shape = repository.requireTopLevelShape(tokens[1]);
         BoundingBox box = shape.getBoundingBox();
         view.showBoundingBox(box);
     }
@@ -234,8 +234,8 @@ public final class ClevisController {
      */
     private void handleIntersect(String[] tokens) {
         ensureLength(tokens, 3);
-        Shape first = repository.requireShape(tokens[1]);
-        Shape second = repository.requireShape(tokens[2]);
+        Shape first = repository.requireTopLevelShape(tokens[1]);
+        Shape second = repository.requireTopLevelShape(tokens[2]);
         boolean intersects = first.getBoundingBox().intersects(second.getBoundingBox());
         view.showMessage(Boolean.toString(intersects));
     }
@@ -247,7 +247,7 @@ public final class ClevisController {
      */
     private void handleList(String[] tokens) {
         ensureLength(tokens, 2);
-        Shape shape = repository.requireShape(tokens[1]);
+        Shape shape = repository.requireTopLevelShape(tokens[1]);
         view.showMessage(formatShapeDescription(shape));
     }
 
