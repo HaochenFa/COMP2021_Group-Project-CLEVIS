@@ -1,14 +1,13 @@
 /**
  * @author FA, Haochen 24113347D
  * @date_created 25th Sep, 2025
- * @latest_update N/A
+ * @latest_update 26th Sep, 2025 by FA, Haochen
  * @description Console View for formatting Clevis CLI output.
  */
 
 package hk.edu.polyu.comp.comp2021.clevis.view;
 
 import hk.edu.polyu.comp.comp2021.clevis.model.BoundingBox;
-
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,6 +18,7 @@ import java.math.RoundingMode;
 public final class ConsoleView {
     private final PrintStream out;
     private final PrintStream err;
+
     /**
      * @constructor
      *

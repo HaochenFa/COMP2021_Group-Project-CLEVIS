@@ -1,3 +1,8 @@
+# @author FA, Haochen 24113347D w/ AI Support
+# @date_created 26th Sep, 2025
+# @latest_update 26th Sep, 2025 by FA, Haochen
+# @description JaCoCo & JUnit Unit Test Entry Script
+
 #!/bin/bash
 set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
