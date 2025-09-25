@@ -10,9 +10,8 @@ package hk.edu.polyu.comp.comp2021.clevis.view;
 import hk.edu.polyu.comp.comp2021.clevis.model.BoundingBox;
 
 import java.io.PrintStream;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * CLI rendering helper that keeps output formatting consistent.
@@ -20,8 +19,6 @@ import java.util.Locale;
 public final class ConsoleView {
     private final PrintStream out;
     private final PrintStream err;
-    private final DecimalFormat decimalFormat;
-
     /**
      * @constructor
      *
@@ -31,8 +28,6 @@ public final class ConsoleView {
     public ConsoleView(PrintStream out, PrintStream err) {
         this.out = out;
         this.err = err;
-        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(Locale.US);
-        this.decimalFormat = new DecimalFormat("0.00", symbols);
     }
 
     /**
@@ -72,6 +67,7 @@ public final class ConsoleView {
      * @return Formatted decimal string
      */
     public String formatDouble(double value) {
-        return decimalFormat.format(value);
+        BigDecimal decimal = BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP);
+        return decimal.toPlainString();
     }
 }
