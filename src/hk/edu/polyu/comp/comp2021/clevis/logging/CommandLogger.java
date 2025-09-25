@@ -1,3 +1,10 @@
+/**
+ * @author FA, Haochen 24113347D
+ * @date_created 25th Sep, 2025
+ * @latest_update N/A
+ * @description Command Logger writing both HTML and text audit trails.
+ */
+
 package hk.edu.polyu.comp.comp2021.clevis.logging;
 
 import java.io.BufferedWriter;
@@ -15,12 +22,24 @@ public final class CommandLogger implements AutoCloseable {
     private int counter;
     private boolean closed;
 
+    /**
+     * @constructor
+     *
+     * @param htmlPath Destination for HTML log output
+     * @param textPath Destination for plain-text log output
+     * @throws IOException When writers cannot be created
+     */
     public CommandLogger(Path htmlPath, Path textPath) throws IOException {
         htmlWriter = Files.newBufferedWriter(htmlPath, StandardCharsets.UTF_8);
         textWriter = Files.newBufferedWriter(textPath, StandardCharsets.UTF_8);
         writeHtmlHeader();
     }
 
+    /**
+     * @function `log` Records a command in both outputs.
+     *
+     * @param command Raw command string
+     */
     public void log(String command) {
         if (closed) {
             throw new IllegalStateException("Logger already closed");
@@ -35,6 +54,9 @@ public final class CommandLogger implements AutoCloseable {
         }
     }
 
+    /**
+     * @function `flush` Forces buffered content to disk for both writers.
+     */
     public void flush() {
         if (closed) {
             return;
@@ -47,6 +69,9 @@ public final class CommandLogger implements AutoCloseable {
         }
     }
 
+    /**
+     * @function `close` Finalizes logs, writing the HTML footer and closing streams.
+     */
     @Override
     public void close() throws IOException {
         if (closed) {

@@ -13,6 +13,11 @@ package hk.edu.polyu.comp.comp2021.clevis.model;
 public abstract class AbstractShape implements Shape {
     private final String name;
 
+    /**
+     * @constructor
+     *
+     * @param name Unique shape identifier
+     */
     protected AbstractShape(String name) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Shape name must not be empty");
@@ -20,6 +25,11 @@ public abstract class AbstractShape implements Shape {
         this.name = name;
     }
 
+    /**
+     * @function `getName`
+     *
+     * @return Stored shape name
+     */
     @Override
     public final String getName() {
         return name;

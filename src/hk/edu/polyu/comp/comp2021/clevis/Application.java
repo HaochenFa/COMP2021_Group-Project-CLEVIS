@@ -1,3 +1,10 @@
+/**
+ * @author FA, Haochen 24113347D
+ * @date_created 25th Sep, 2025
+ * @latest_update N/A
+ * @description Clevis CLI Application entry point.
+ */
+
 package hk.edu.polyu.comp.comp2021.clevis;
 
 import hk.edu.polyu.comp.comp2021.clevis.controller.ClevisController;
@@ -18,6 +25,11 @@ public final class Application {
     private Application() {
     }
 
+    /**
+     * @function `main`
+     *
+     * @param args CLI arguments following assignment spec
+     */
     public static void main(String[] args) {
         StartupArguments startupArguments;
         try {
@@ -47,6 +59,12 @@ public final class Application {
         }
     }
 
+    /**
+     * @function `parseArguments` Parses -html and -txt destinations.
+     *
+     * @param args CLI tokens
+     * @return Parsed startup arguments structure
+     */
     private static StartupArguments parseArguments(String[] args) {
         Path html = null;
         Path txt = null;
@@ -72,6 +90,9 @@ public final class Application {
         return new StartupArguments(html, txt);
     }
 
+    /**
+     * @function `printUsage`
+     */
     private static void printUsage() {
         System.err.println("Usage: java hk.edu.polyu.comp.comp2021.clevis.Application -html <htmlLog> -txt <textLog>");
     }
@@ -80,6 +101,12 @@ public final class Application {
         private final Path htmlLog;
         private final Path textLog;
 
+        /**
+         * @constructor
+         *
+         * @param htmlLog HTML log path
+         * @param textLog Text log path
+         */
         private StartupArguments(Path htmlLog, Path textLog) {
             this.htmlLog = htmlLog;
             this.textLog = textLog;

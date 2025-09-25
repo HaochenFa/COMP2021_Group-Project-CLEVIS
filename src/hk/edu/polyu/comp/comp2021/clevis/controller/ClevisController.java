@@ -1,3 +1,10 @@
+/**
+ * @author FA, Haochen 24113347D
+ * @date_created 25th Sep, 2025
+ * @latest_update N/A
+ * @description Clevis Controller orchestrating command parsing & execution.
+ */
+
 package hk.edu.polyu.comp.comp2021.clevis.controller;
 
 import hk.edu.polyu.comp.comp2021.clevis.logging.CommandLogger;
@@ -29,16 +36,33 @@ public final class ClevisController {
     private final ConsoleView view;
     private boolean running = true;
 
+    /**
+     * @constructor
+     *
+     * @param repository Shape storage abstraction
+     * @param logger     Command logger
+     * @param view       CLI view used for all output
+     */
     public ClevisController(ShapeRepository repository, CommandLogger logger, ConsoleView view) {
         this.repository = repository;
         this.logger = logger;
         this.view = view;
     }
 
+    /**
+     * @function `isRunning`
+     *
+     * @return Flag indicating whether CLI loop should continue
+     */
     public boolean isRunning() {
         return running;
     }
 
+    /**
+     * @function `executeCommand` Parses and executes a single user command.
+     *
+     * @param rawCommand Raw command string from the CLI
+     */
     public void executeCommand(String rawCommand) {
         String command = rawCommand.trim();
         if (command.isEmpty()) {
@@ -102,6 +126,11 @@ public final class ClevisController {
         }
     }
 
+    /**
+     * @function `handleRectangle` Creates a rectangle shape.
+     *
+     * @param tokens Command tokens
+     */
     private void handleRectangle(String[] tokens) {
         ensureLength(tokens, 6);
         String name = tokens[1];
@@ -112,6 +141,11 @@ public final class ClevisController {
         repository.registerShape(new RectangleShape(name, x, y, width, height));
     }
 
+    /**
+     * @function `handleSquare` Creates a square shape.
+     *
+     * @param tokens Command tokens
+     */
     private void handleSquare(String[] tokens) {
         ensureLength(tokens, 5);
         String name = tokens[1];
@@ -121,6 +155,11 @@ public final class ClevisController {
         repository.registerShape(new SquareShape(name, x, y, side));
     }
 
+    /**
+     * @function `handleCircle` Creates a circle shape.
+     *
+     * @param tokens Command tokens
+     */
     private void handleCircle(String[] tokens) {
         ensureLength(tokens, 5);
         String name = tokens[1];
@@ -130,6 +169,11 @@ public final class ClevisController {
         repository.registerShape(new CircleShape(name, x, y, radius));
     }
 
+    /**
+     * @function `handleLine` Creates a line segment.
+     *
+     * @param tokens Command tokens
+     */
     private void handleLine(String[] tokens) {
         ensureLength(tokens, 6);
         String name = tokens[1];
@@ -140,6 +184,11 @@ public final class ClevisController {
         repository.registerShape(new LineSegmentShape(name, x1, y1, x2, y2));
     }
 
+    /**
+     * @function `handleGroup` Groups multiple shapes under a new name.
+     *
+     * @param tokens Command tokens
+     */
     private void handleGroup(String[] tokens) {
         if (tokens.length < 3) {
             throw new IllegalArgumentException("Group command requires a name and members");
@@ -149,16 +198,31 @@ public final class ClevisController {
         repository.groupShapes(groupName, members);
     }
 
+    /**
+     * @function `handleUngroup` Restores members of an existing group.
+     *
+     * @param tokens Command tokens
+     */
     private void handleUngroup(String[] tokens) {
         ensureLength(tokens, 2);
         repository.ungroup(tokens[1]);
     }
 
+    /**
+     * @function `handleDelete` Removes a top-level shape.
+     *
+     * @param tokens Command tokens
+     */
     private void handleDelete(String[] tokens) {
         ensureLength(tokens, 2);
         repository.deleteShape(tokens[1]);
     }
 
+    /**
+     * @function `handleBoundingBox` Displays the bounding box of a shape.
+     *
+     * @param tokens Command tokens
+     */
     private void handleBoundingBox(String[] tokens) {
         ensureLength(tokens, 2);
         Shape shape = repository.requireShape(tokens[1]);
@@ -166,6 +230,11 @@ public final class ClevisController {
         view.showBoundingBox(box);
     }
 
+    /**
+     * @function `handleMove` Translates a top-level shape.
+     *
+     * @param tokens Command tokens
+     */
     private void handleMove(String[] tokens) {
         ensureLength(tokens, 4);
         Shape shape = repository.requireTopLevelShape(tokens[1]);
@@ -174,6 +243,11 @@ public final class ClevisController {
         shape.move(dx, dy);
     }
 
+    /**
+     * @function `handleShapeAt` Finds the top-most shape at coordinates.
+     *
+     * @param tokens Command tokens
+     */
     private void handleShapeAt(String[] tokens) {
         ensureLength(tokens, 3);
         double x = parseDouble(tokens[1]);
@@ -182,6 +256,11 @@ public final class ClevisController {
         view.showMessage(shape.map(Shape::getName).orElse("NONE"));
     }
 
+    /**
+     * @function `handleIntersect` Performs bounding-box intersection check.
+     *
+     * @param tokens Command tokens
+     */
     private void handleIntersect(String[] tokens) {
         ensureLength(tokens, 3);
         Shape first = repository.requireShape(tokens[1]);
@@ -190,12 +269,22 @@ public final class ClevisController {
         view.showMessage(Boolean.toString(intersects));
     }
 
+    /**
+     * @function `handleList` Displays a description of a shape.
+     *
+     * @param tokens Command tokens
+     */
     private void handleList(String[] tokens) {
         ensureLength(tokens, 2);
         Shape shape = repository.requireShape(tokens[1]);
         view.showMessage(formatShapeDescription(shape));
     }
 
+    /**
+     * @function `handleListAll` Lists all top-level shapes in z-order.
+     *
+     * @param tokens Command tokens
+     */
     private void handleListAll(String[] tokens) {
         ensureLength(tokens, 1);
         List<Shape> shapes = repository.listTopLevelShapes();
@@ -204,6 +293,12 @@ public final class ClevisController {
         }
     }
 
+    /**
+     * @function `listShapeRecursive` Recursively prints nested group contents.
+     *
+     * @param shape Shape to describe
+     * @param depth Current indentation depth
+     */
     private void listShapeRecursive(Shape shape, int depth) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < depth; i++) {
@@ -220,6 +315,12 @@ public final class ClevisController {
         }
     }
 
+    /**
+     * @function `formatShapeDescription` Serializes a shape into CLI-friendly string.
+     *
+     * @param shape Shape instance
+     * @return Description string
+     */
     private String formatShapeDescription(Shape shape) {
         if (shape instanceof RectangleShape && !(shape instanceof SquareShape)) {
             RectangleShape rectangle = (RectangleShape) shape;
@@ -272,12 +373,24 @@ public final class ClevisController {
         return shape.getName();
     }
 
+    /**
+     * @function `ensureLength` Validates command length.
+     *
+     * @param tokens   Command tokens
+     * @param expected Expected token count
+     */
     private static void ensureLength(String[] tokens, int expected) {
         if (tokens.length != expected) {
             throw new IllegalArgumentException("Expected " + expected + " arguments, got " + tokens.length);
         }
     }
 
+    /**
+     * @function `parseDouble`
+     *
+     * @param token Numeric token
+     * @return Parsed double value
+     */
     private static double parseDouble(String token) {
         return Double.parseDouble(token);
     }
