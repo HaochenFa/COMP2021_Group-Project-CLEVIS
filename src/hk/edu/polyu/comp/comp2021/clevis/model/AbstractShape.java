@@ -1,3 +1,10 @@
+/**
+ * @author FA, Haochen 24113347D
+ * @date_created 25th Sep, 2025
+ * @latest_update N/A
+ * @description Base Class for All Shapes.
+ */
+
 package hk.edu.polyu.comp.comp2021.clevis.model;
 
 /**
